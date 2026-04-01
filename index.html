@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisi Protezione Assicurativa | Tommaso Bertacco</title>
+<meta name="description" content="Scopri gratuitamente il tuo livello di protezione assicurativa. Analisi personalizzata degli scoperti vita, infortuni, critical illness, LTC e patrimonio con confronto INPS/INAIL/SSN.">
+<meta name="author" content="Tommaso Bertacco - Consulente Assicurativo Plurimandatario">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Analisi Protezione Assicurativa Gratuita">
+<meta property="og:description" content="Scopri in 3 minuti dove sei coperto e dove sei esposto a rischi. Analisi personalizzata con confronto delle coperture pubbliche INPS, INAIL e SSN.">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' fill='%231a365d'%3E%3Crect width='1200' height='630' rx='0'/%3E%3Ctext x='600' y='280' text-anchor='middle' fill='white' font-size='48' font-family='system-ui'%3EAnalisi Protezione%3C/text%3E%3Ctext x='600' y='350' text-anchor='middle' fill='%2390cdf4' font-size='32' font-family='system-ui'%3EAssicurativa Gratuita%3C/text%3E%3Ctext x='600' y='430' text-anchor='middle' fill='%23a0aec0' font-size='22' font-family='system-ui'%3ETommaso Bertacco - Consulente Assicurativo%3C/text%3E%3C/svg%3E">
+
+<!-- Favicon inline SVG -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231a365d'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='white' font-size='45' font-family='system-ui' font-weight='bold'%3ETB%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<style>
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2b6cb0;
+    --accent: #e53e3e;
+    --success: #38a169;
+    --warning: #d69e2e;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --text: #2d3748;
+    --text-light: #718096;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+    --radius: 12px;
+    --state-blue: #3182ce;
+    --state-bg: #ebf8ff;
+    --gap-red: #e53e3e;
+    --gap-bg: #fff5f5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white; padding: 2rem; text-align: center;
+  }
+  .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: .25rem; }
+  .header p { opacity: .85; font-size: .95rem; }
+
+  .container { max-width: 840px; margin: 0 auto; padding: 1.5rem; }
+
+  .progress-bar { display: flex; gap: .5rem; margin-bottom: 2rem; }
+  .progress-step { flex: 1; height: 6px; border-radius: 3px; background: var(--border); transition: background .3s; }
+  .progress-step.active { background: var(--primary-light); }
+  .progress-step.done { background: var(--success); }
+
+  .step-labels { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: .8rem; color: var(--text-light); }
+  .step-labels span { text-align: center; flex: 1; }
+  .step-labels span.active { color: var(--primary); font-weight: 600; }
+
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 2rem; margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.25rem; color: var(--primary); margin-bottom: .25rem; }
+  .card .subtitle { color: var(--text-light); font-size: .9rem; margin-bottom: 1.5rem; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-group { margin-bottom: 1rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { display: block; font-size: .85rem; font-weight: 600; color: var(--text); margin-bottom: .35rem; }
+  input, select {
+    width: 100%; padding: .65rem .85rem; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: .95rem; transition: border-color .2s; background: white;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(43,108,176,.15); }
+
+  .coverage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  @media (max-width: 600px) { .coverage-grid { grid-template-columns: 1fr; } }
+  .coverage-item {
+    border: 2px solid var(--border); border-radius: 10px; padding: 1rem;
+    cursor: pointer; transition: all .2s; user-select: none;
+  }
+  .coverage-item:hover { border-color: var(--primary-light); background: #ebf8ff; }
+  .coverage-item.selected { border-color: var(--success); background: #f0fff4; }
+  .coverage-item .icon { font-size: 1.5rem; margin-bottom: .35rem; }
+  .coverage-item .name { font-weight: 600; font-size: .9rem; }
+  .coverage-item .desc { font-size: .78rem; color: var(--text-light); }
+  .coverage-detail { margin-top: .75rem; display: none; animation: fadeIn .3s; }
+  .coverage-item.selected .coverage-detail { display: block; }
+  .coverage-detail input { padding: .5rem .7rem; font-size: .85rem; }
+  .coverage-detail label { font-size: .78rem; margin-top: .5rem; }
+
+  .btn-row { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+  .btn { padding: .75rem 2rem; border: none; border-radius: 8px; font-size: .95rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+  .btn-secondary:hover { background: #ebf8ff; }
+  .btn-accent { background: var(--accent); color: white; }
+  .btn-accent:hover { background: #c53030; }
+
+  .result-header { text-align: center; padding: 1.5rem 0; }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    font-size: 2.5rem; font-weight: 800; color: white;
+  }
+  .score-circle .label { font-size: .75rem; font-weight: 400; opacity: .9; }
+  .score-low { background: linear-gradient(135deg, #e53e3e, #fc8181); }
+  .score-mid { background: linear-gradient(135deg, #d69e2e, #ecc94b); }
+  .score-high { background: linear-gradient(135deg, #38a169, #68d391); }
+
+  /* Donut chart cards */
+  .donut-card { text-align:center; padding:.75rem .5rem; border-radius:12px; background:#f7fafc; border:1px solid #e2e8f0; transition:box-shadow .2s; }
+  .donut-card:hover { box-shadow:0 2px 12px rgba(0,0,0,.08); }
+  .donut-card .donut-name { font-size:.8rem; font-weight:700; color:var(--primary); margin-bottom:.5rem; line-height:1.2; min-height:2rem; display:flex;align-items:center;justify-content:center; }
+  .donut-card svg { display:block; margin:0 auto; }
+  .donut-card .donut-values { font-size:.7rem; color:var(--text-light); margin-top:.4rem; line-height:1.4; }
+  .donut-card .donut-values b { color:var(--text); }
+  .donut-card .donut-status { display:inline-block; font-size:.65rem; font-weight:700; color:#fff; padding:.15rem .55rem; border-radius:8px; margin-top:.4rem; }
+  .donut-card .donut-status.st-scoperto { background:#e53e3e; }
+  .donut-card .donut-status.st-parziale { background:#dd6b20; }
+  .donut-card .donut-status.st-coperto { background:#38a169; }
+
+  /* Gap section with explanation */
+  .gap-section { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+  .gap-section:last-child { border-bottom: none; }
+  .gap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
+  .gap-title { font-weight: 700; font-size: 1rem; }
+  .gap-values { font-size: .8rem; color: var(--text-light); }
+  .gap-bar-bg { height: 28px; background: #edf2f7; border-radius: 14px; overflow: hidden; }
+  .gap-bar-fill {
+    height: 100%; border-radius: 14px; transition: width .8s ease;
+    display: flex; align-items: center; justify-content: flex-end; padding-right: .75rem;
+    font-size: .75rem; font-weight: 700; color: white; min-width: 40px;
+  }
+  .fill-red { background: linear-gradient(90deg, #fc8181, #e53e3e); }
+  .fill-orange { background: linear-gradient(90deg, #fbd38d, #d69e2e); }
+  .fill-green { background: linear-gradient(90deg, #68d391, #38a169); }
+  .gap-note { font-size: .78rem; color: var(--text-light); margin-top: .25rem; font-style: italic; }
+
+  /* === Formula explanation box === */
+  .formula-box {
+    margin-top: .6rem; border-radius: 10px; overflow: hidden;
+    border: 1px solid #d5c8f5; font-size: .82rem;
+  }
+  .formula-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .6rem 1rem; background: #f5f0ff; cursor: pointer; user-select: none;
+    font-weight: 600; color: #553c9a; font-size: .82rem;
+  }
+  .formula-toggle:hover { background: #ede9fe; }
+  .formula-toggle .arrow { transition: transform .2s; font-size: .7rem; }
+  .formula-toggle.open .arrow { transform: rotate(180deg); }
+  .formula-content { display: none; padding: .8rem 1rem; background: #faf8ff; }
+  .formula-content.open { display: block; }
+  .formula-step {
+    display: flex; align-items: flex-start; gap: .6rem;
+    padding: .4rem 0; border-bottom: 1px dashed #e2d8f5;
+    font-size: .82rem;
+  }
+  .formula-step:last-child { border-bottom: none; }
+  .formula-step-num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    background: #805ad5; color: white; display: flex; align-items: center;
+    justify-content: center; font-size: .7rem; font-weight: 700; margin-top: 2px;
+  }
+  .formula-step-text { flex: 1; line-height: 1.45; }
+  .formula-step-text b { color: #553c9a; }
+  .formula-result {
+    margin-top: .5rem; padding: .6rem .8rem; background: #553c9a; color: white;
+    border-radius: 8px; font-weight: 700; text-align: center; font-size: .88rem;
+  }
+  .formula-note {
+    margin-top: .4rem; font-size: .75rem; color: var(--text-light); font-style: italic;
+  }
+
+  /* === Public coverage explanation box === */
+  .explanation-box {
+    margin-top: .75rem; border-radius: 10px; overflow: hidden;
+    border: 1px solid #d0e4f5; font-size: .82rem;
+  }
+  .explanation-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .6rem 1rem; background: #f0f7ff; cursor: pointer; user-select: none;
+    font-weight: 600; color: var(--primary); font-size: .82rem;
+  }
+  .explanation-toggle:hover { background: #dbeafe; }
+  .explanation-toggle .arrow { transition: transform .2s; font-size: .7rem; }
+  .explanation-toggle.open .arrow { transform: rotate(180deg); }
+  .explanation-content {
+    display: none; padding: 0;
+  }
+  .explanation-content.open { display: block; }
+
+  .expl-row {
+    display: flex; padding: .6rem 1rem; gap: .75rem; align-items: flex-start;
+    border-top: 1px solid #e8f0fa;
+  }
+  .expl-row:first-child { border-top: none; }
+
+  .expl-icon {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: white; margin-top: 2px;
+  }
+  .expl-icon.state { background: var(--state-blue); }
+  .expl-icon.gap { background: var(--gap-red); }
+  .expl-icon.tip { background: var(--warning); }
+
+  .expl-text { flex: 1; }
+  .expl-label { font-weight: 700; font-size: .78rem; margin-bottom: .1rem; }
+  .expl-label.state-label { color: var(--state-blue); }
+  .expl-label.gap-label { color: var(--gap-red); }
+  .expl-label.tip-label { color: var(--warning); }
+  .expl-desc { color: var(--text); line-height: 1.45; font-size: .82rem; }
+
+  /* Stacked bar for public vs private vs gap */
+  .stacked-bar-container { margin-top: .6rem; }
+  .stacked-bar-label { display: flex; justify-content: space-between; font-size: .72rem; color: var(--text-light); margin-bottom: .2rem; }
+  .stacked-bar {
+    height: 18px; border-radius: 9px; overflow: hidden; display: flex;
+    background: #fed7d7;
+  }
+  .stacked-fill-state {
+    background: linear-gradient(90deg, #63b3ed, #3182ce);
+    height: 100%; transition: width .8s;
+  }
+  .stacked-fill-private {
+    background: linear-gradient(90deg, #68d391, #38a169);
+    height: 100%; transition: width .8s;
+  }
+  .stacked-legend {
+    display: flex; gap: 1rem; margin-top: .35rem; font-size: .72rem; color: var(--text-light);
+  }
+  .legend-dot {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: .3rem; vertical-align: middle;
+  }
+
+  /* Summary table */
+  .summary-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .85rem; }
+  .summary-table th { background: var(--primary); color: white; padding: .6rem .8rem; text-align: left; font-weight: 600; }
+  .summary-table th:first-child { border-radius: 8px 0 0 0; }
+  .summary-table th:last-child { border-radius: 0 8px 0 0; }
+  .summary-table td { padding: .6rem .8rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  .summary-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+  .summary-table tr:nth-child(even) { background: #f7fafc; }
+
+  .status-badge { display: inline-block; padding: .15rem .6rem; border-radius: 20px; font-size: .75rem; font-weight: 700; }
+  .status-scoperto { background: #fed7d7; color: #c53030; }
+  .status-parziale { background: #fefcbf; color: #975a16; }
+  .status-coperto { background: #c6f6d5; color: #276749; }
+
+  /* Recommendation cards */
+  .rec-card { border-left: 4px solid var(--accent); background: #fff5f5; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin-bottom: .75rem; }
+  .rec-card.priority-high { border-color: #e53e3e; background: #fff5f5; }
+  .rec-card.priority-medium { border-color: #d69e2e; background: #fffff0; }
+  .rec-card.priority-low { border-color: #38a169; background: #f0fff4; }
+  .rec-card .rec-priority { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .25rem; }
+  .rec-card.priority-high .rec-priority { color: #e53e3e; }
+  .rec-card.priority-medium .rec-priority { color: #d69e2e; }
+  .rec-card.priority-low .rec-priority { color: #38a169; }
+  .rec-card .rec-title { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+  .rec-card .rec-desc { font-size: .85rem; color: var(--text-light); }
+
+  .print-btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--primary); color: white; padding: .6rem 1.5rem;
+    border-radius: 8px; border: none; cursor: pointer; font-size: .9rem; font-weight: 600;
+  }
+  .print-btn:hover { background: var(--primary-light); }
+
+  @media print {
+    .header { padding: 1rem; }
+    .btn-row, .print-btn, .no-print { display: none !important; }
+    .container { padding: 0; }
+    .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    body { background: white; }
+    .explanation-content { display: block !important; }
+    .formula-content { display: block !important; }
+    .formula-toggle .arrow, .explanation-toggle .arrow { display: none; }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .step-panel { animation: fadeIn .3s; }
+  .hidden { display: none; }
+  .footer { text-align: center; padding: 1.5rem; color: var(--text-light); font-size: .8rem; }
+
+  /* Branded header */
+  .brand-bar {
+    background: white; border-bottom: 2px solid var(--primary);
+    padding: .6rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: .5rem;
+  }
+  .brand-name {
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .brand-logo {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: .85rem; flex-shrink: 0;
+  }
+  .brand-title { font-weight: 700; color: var(--primary); font-size: .9rem; line-height: 1.2; }
+  .brand-subtitle { font-size: .75rem; color: var(--text-light); font-weight: 400; }
+  .brand-contacts {
+    display: flex; align-items: center; gap: 1rem; font-size: .82rem; color: var(--text);
+  }
+  .brand-contacts a {
+    color: var(--primary-light); text-decoration: none; display: flex; align-items: center; gap: .3rem;
+  }
+  .brand-contacts a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .brand-bar { justify-content: center; text-align: center; }
+    .brand-contacts { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="brand-bar">
+  <div class="brand-name">
+    <div class="brand-logo">TB</div>
+    <div>
+      <div class="brand-title">Tommaso Bertacco</div>
+      <div class="brand-subtitle">Consulente Assicurativo Plurimandatario</div>
+    </div>
+  </div>
+  <div class="brand-contacts">
+    <a href="tel:+393420647740">&#x1F4DE; 342 064 7740</a>
+    <a href="mailto:tommaso.bertacco@gmail.com">&#x2709;&#xFE0F; tommaso.bertacco@gmail.com</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Analisi della Protezione Assicurativa</h1>
+  <p>Scopri gratuitamente dove sei coperto e dove potresti essere esposto a rischi</p>
+</div>
+
+<div class="container">
+
+  <div class="progress-bar">
+    <div class="progress-step active" id="prog1"></div>
+    <div class="progress-step" id="prog2"></div>
+    <div class="progress-step" id="prog3"></div>
+    <div class="progress-step" id="prog4"></div>
+  </div>
+  <div class="step-labels no-print">
+    <span class="active" id="lbl1">Dati personali</span>
+    <span id="lbl2">Coperture attuali</span>
+    <span id="lbl3">Dettagli</span>
+    <span id="lbl4">Risultati</span>
+  </div>
+
+  <!-- STEP 1 -->
+  <div id="step1" class="step-panel">
+    <div class="card">
+      <h2>Informazioni Personali</h2>
+      <p class="subtitle">Questi dati ci permettono di calcolare il livello di protezione consigliato per la tua situazione.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nome e Cognome</label>
+          <input type="text" id="clientName" placeholder="Mario Rossi">
+        </div>
+        <div class="form-group">
+          <label>Eta</label>
+          <input type="number" id="clientAge" placeholder="40" min="18" max="80">
+        </div>
+        <div class="form-group">
+          <label>Stato familiare</label>
+          <select id="familyStatus">
+            <option value="">Seleziona...</option>
+            <option value="single">Single senza figli</option>
+            <option value="couple">In coppia senza figli</option>
+            <option value="family_1">Famiglia con 1 figlio</option>
+            <option value="family_2">Famiglia con 2 figli</option>
+            <option value="family_3">Famiglia con 3+ figli</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo di occupazione</label>
+          <select id="occupation">
+            <option value="">Seleziona...</option>
+            <option value="dipendente">Lavoratore dipendente</option>
+            <option value="autonomo">Lavoratore autonomo / P.IVA</option>
+            <option value="professionista">Libero professionista</option>
+            <option value="imprenditore">Imprenditore / Titolare PMI</option>
+            <option value="dirigente">Dirigente</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="cassaGroup">
+          <label>Cassa previdenziale</label>
+          <select id="cassaPrev">
+            <option value="inps">INPS Gestione Separata</option>
+            <option value="inps_art_comm">INPS Artigiani e Commercianti</option>
+            <option value="cnpadc">CNPADC (Commercialisti)</option>
+            <option value="cassaforense">Cassa Forense (Avvocati)</option>
+            <option value="enpam">ENPAM (Medici/Odontoiatri)</option>
+            <option value="inarcassa">Inarcassa (Ingegneri/Architetti)</option>
+            <option value="enpacl">ENPACL (Consulenti del Lavoro)</option>
+            <option value="cnpr">CNPR (Ragionieri)</option>
+            <option value="enpap">ENPAP (Psicologi)</option>
+            <option value="enpav">ENPAV (Veterinari)</option>
+            <option value="cipag">CIPAG (Geometri)</option>
+            <option value="eppi">EPPI (Periti Industriali)</option>
+            <option value="altra_cassa">Altra Cassa professionale</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Reddito annuo netto (&euro;)</label>
+          <input type="number" id="income" placeholder="35000" min="0" step="1000">
+        </div>
+        <div class="form-group">
+          <label>Hai un mutuo in corso?</label>
+          <select id="hasMortgage">
+            <option value="no">No</option>
+            <option value="yes">Si</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="mortgageGroup">
+          <label>Debito residuo mutuo (&euro;)</label>
+          <input type="number" id="mortgageAmount" placeholder="150000" min="0" step="5000">
+        </div>
+        <div class="form-group">
+          <label>Risparmi / patrimonio liquido (&euro;)</label>
+          <input type="number" id="savings" placeholder="20000" min="0" step="1000">
+        </div>
+      </div>
+      <div class="btn-row">
+        <div></div>
+        <button class="btn btn-primary" onclick="goToStep(2)">Avanti &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="step-panel hidden">
+    <div class="card">
+      <h2>Coperture Assicurative Attuali</h2>
+      <p class="subtitle">Seleziona le polizze che hai gia attive. Clicca su ogni voce per selezionarla.</p>
+      <div class="coverage-grid">
+        <div class="coverage-item" onclick="toggleCoverage(this, 'vita')" data-type="vita">
+          <div class="icon">&#x1F6E1;&#xFE0F;</div>
+          <div class="name">Polizza Vita (TCM)</div>
+          <div class="desc">Caso morte, protezione famiglia</div>
+          <div class="coverage-detail">
+            <label>Capitale assicurato (&euro;)</label>
+            <input type="number" id="cov_vita" placeholder="100000" min="0" step="10000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'infortuni')" data-type="infortuni">
+          <div class="icon">&#x1F3E5;</div>
+          <div class="name">Infortuni</div>
+          <div class="desc">Invalidita permanente, diaria</div>
+          <div class="coverage-detail">
+            <label>Capitale invalidita permanente (&euro;)</label>
+            <input type="number" id="cov_infortuni" placeholder="100000" min="0" step="10000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'critical')" data-type="critical">
+          <div class="icon">&#x1F49F;</div>
+          <div class="name">Critical Illness (Malattie Gravi)</div>
+          <div class="desc">Capitale in caso di diagnosi grave (tumore, infarto, ictus)</div>
+          <div class="coverage-detail">
+            <label>Capitale assicurato (&euro;)</label>
+            <input type="number" id="cov_critical" placeholder="50000" min="0" step="5000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'invalidita')" data-type="invalidita">
+          <div class="icon">&#x2695;&#xFE0F;</div>
+          <div class="name">Invalidita da malattia</div>
+          <div class="desc">Perdita capacita lavorativa</div>
+          <div class="coverage-detail">
+            <label>Capitale assicurato (&euro;)</label>
+            <input type="number" id="cov_invalidita" placeholder="100000" min="0" step="10000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'casa')" data-type="casa">
+          <div class="icon">&#x1F3E0;</div>
+          <div class="name">Casa / Incendio</div>
+          <div class="desc">Fabbricato, contenuto, RC</div>
+          <div class="coverage-detail">
+            <label>Valore assicurato (&euro;)</label>
+            <input type="number" id="cov_casa" placeholder="200000" min="0" step="10000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'rcprof')" data-type="rcprof">
+          <div class="icon">&#x1F4BC;</div>
+          <div class="name">RC Professionale</div>
+          <div class="desc">Responsabilita civile professionale</div>
+          <div class="coverage-detail">
+            <label>Massimale (&euro;)</label>
+            <input type="number" id="cov_rcprof" placeholder="500000" min="0" step="50000" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'ltc')" data-type="ltc">
+          <div class="icon">&#x1F9D1;&#x200D;&#x1F9BD;</div>
+          <div class="name">Long Term Care (LTC)</div>
+          <div class="desc">Non autosufficienza, assistenza continua</div>
+          <div class="coverage-detail">
+            <label>Rendita mensile assicurata (&euro;)</label>
+            <input type="number" id="cov_ltc" placeholder="1500" min="0" step="100" onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="coverage-item" onclick="toggleCoverage(this, 'previdenza')" data-type="previdenza">
+          <div class="icon">&#x1F3AF;</div>
+          <div class="name">Previdenza integrativa</div>
+          <div class="desc">Fondo pensione, PIP</div>
+          <div class="coverage-detail">
+            <label>Versamento annuo (&euro;)</label>
+            <input type="number" id="cov_previdenza" placeholder="3000" min="0" step="500" onclick="event.stopPropagation()">
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goToStep(1)">&larr; Indietro</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Avanti &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div id="step3" class="step-panel hidden">
+    <div class="card">
+      <h2>Dettagli Aggiuntivi</h2>
+      <p class="subtitle">Queste informazioni ci aiutano a personalizzare l'analisi.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Il tuo coniuge/partner lavora?</label>
+          <select id="partnerWorks">
+            <option value="na">Non applicabile</option>
+            <option value="yes">Si</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Reddito partner (&euro;/anno, se applicabile)</label>
+          <input type="number" id="partnerIncome" placeholder="0" min="0" step="1000">
+        </div>
+        <div class="form-group full">
+          <label>Ci sono esigenze particolari?</label>
+          <input type="text" id="specialNeeds" placeholder="Es: pratico sci, viaggio spesso all'estero, patologie...">
+        </div>
+        <div class="form-group full">
+          <label>Qual e la tua principale preoccupazione?</label>
+          <select id="mainConcern">
+            <option value="">Seleziona...</option>
+            <option value="family">Proteggere la famiglia in caso di imprevisto</option>
+            <option value="income">Proteggere il mio reddito se non posso lavorare</option>
+            <option value="health">Avere accesso alle migliori cure mediche</option>
+            <option value="assets">Proteggere il mio patrimonio</option>
+            <option value="retirement">Garantirmi un tenore di vita in pensione</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goToStep(2)">&larr; Indietro</button>
+        <button class="btn btn-accent" onclick="calculateResults()">&#x1F4CA; Genera Analisi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Results -->
+  <div id="step4" class="step-panel hidden">
+
+    <div class="card">
+      <div class="result-header">
+        <div id="scoreCircle" class="score-circle score-low">
+          <span id="scoreValue">0%</span>
+          <span class="label">protetto</span>
+        </div>
+        <h2 id="resultName" style="margin-bottom:.25rem"></h2>
+        <p class="subtitle" id="resultSummary"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>I tuoi scoperti</h2>
+      <p class="subtitle">Ogni grafico mostra quanto sei coperto: verde = polizza, blu = Stato, rosso = scoperto.</p>
+      <div id="donutGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.25rem;margin-top:1rem;"></div>
+      <div style="display:flex;gap:1.5rem;justify-content:center;margin-top:1.25rem;flex-wrap:wrap;">
+        <span style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:var(--text-light);"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#38a169;"></span> Tua polizza</span>
+        <span style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:var(--text-light);"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#3182ce;"></span> Copertura Stato</span>
+        <span style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:var(--text-light);"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e53e3e;"></span> Scoperto</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Cosa fare</h2>
+      <div id="recommendations"></div>
+    </div>
+
+    <div class="card" style="display:none;" id="detailCard">
+      <h2>Dettaglio</h2>
+      <div id="gapBars"></div>
+    </div>
+
+    <div class="card" style="text-align:center;">
+      <p style="font-size:.9rem;color:var(--text-light);margin-bottom:.5rem;">
+        Analisi generata il <span id="reportDate"></span>
+      </p>
+      <p style="font-size:.95rem;color:var(--primary);font-weight:600;margin-bottom:1rem;">
+        Consulente: Tommaso Bertacco | &#x1F4DE; 342 064 7740 | tommaso.bertacco@gmail.com
+      </p>
+      <p style="font-size:.85rem;color:var(--text-light);margin-bottom:1.25rem;">
+        Vuoi approfondire i risultati? Inviami i tuoi dati e ti contattero per una consulenza gratuita.
+      </p>
+      <div class="no-print" style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;">
+        <button class="btn btn-accent" onclick="sendResultsByEmail()" style="display:inline-flex;align-items:center;gap:.4rem;">&#x2709;&#xFE0F; Invia risultati al consulente</button>
+        <button class="print-btn" onclick="window.print()">&#x1F5A8;&#xFE0F; Stampa</button>
+        <button class="btn btn-secondary" onclick="resetAll()">Nuova analisi</button>
+      </div>
+      <p id="emailSentMsg" class="no-print hidden" style="margin-top:.75rem;font-size:.85rem;color:var(--success);font-weight:600;"></p>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer no-print">
+  <p>Analisi indicativa a scopo informativo. Non sostituisce una consulenza personalizzata.<br>
+  I dati sulle prestazioni pubbliche (INPS, INAIL, SSN) sono riferimenti generali e possono variare in base alla situazione individuale.</p>
+  <p style="margin-top:.5rem;">&copy; 2026 Tommaso Bertacco &mdash; Consulente Assicurativo Plurimandatario</p>
+</div>
+
+<script>
+let currentStep = 1;
+const selectedCoverages = new Set();
+
+document.getElementById('hasMortgage').addEventListener('change', function() {
+  document.getElementById('mortgageGroup').classList.toggle('hidden', this.value !== 'yes');
+});
+
+// Show/hide Cassa previdenziale based on occupation
+document.getElementById('occupation').addEventListener('change', function() {
+  const showCassa = ['autonomo', 'professionista', 'imprenditore'].includes(this.value);
+  document.getElementById('cassaGroup').classList.toggle('hidden', !showCassa);
+  // Pre-select INPS for imprenditore
+  if (this.value === 'imprenditore') {
+    document.getElementById('cassaPrev').value = 'inps';
+  }
+});
+
+function toggleCoverage(el, type) {
+  el.classList.toggle('selected');
+  selectedCoverages.has(type) ? selectedCoverages.delete(type) : selectedCoverages.add(type);
+}
+
+function goToStep(step) {
+  if (step === 2 && !validateStep1()) return;
+  document.getElementById('step' + currentStep).classList.add('hidden');
+  document.getElementById('step' + step).classList.remove('hidden');
+  for (let i = 1; i <= 4; i++) {
+    const prog = document.getElementById('prog' + i);
+    const lbl = document.getElementById('lbl' + i);
+    prog.classList.remove('active', 'done');
+    if (lbl) lbl.classList.remove('active');
+    if (i < step) prog.classList.add('done');
+    if (i === step) { prog.classList.add('active'); if (lbl) lbl.classList.add('active'); }
+  }
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep1() {
+  const age = document.getElementById('clientAge').value;
+  const family = document.getElementById('familyStatus').value;
+  const occ = document.getElementById('occupation').value;
+  const income = document.getElementById('income').value;
+  if (!age || !family || !occ || !income) {
+    alert('Compila tutti i campi obbligatori: Eta, Stato familiare, Occupazione e Reddito.');
+    return false;
+  }
+  return true;
+}
+
+function fmt(n) {
+  return new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+}
+function val(id) {
+  return parseFloat(document.getElementById(id).value) || 0;
+}
+
+function toggleExplanation(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+// ============================================================
+// PUBLIC COVERAGE DATA (INPS / INAIL / SSN)
+// ============================================================
+function getPublicCoverageInfo(areaKey, occ, income, family, age, mortgage, cassa) {
+  const isSelfEmployed = ['autonomo', 'professionista', 'imprenditore'].includes(occ);
+  const isDipendente = occ === 'dipendente' || occ === 'dirigente';
+  const hasFamily = ['couple', 'family_1', 'family_2', 'family_3'].includes(family);
+
+  // ---------- CASSA PREVIDENZIALE DATA ----------
+  // Dati specifici per ogni Cassa professionale
+  const cassaInfo = {
+    inps: { nome: 'INPS Gestione Separata', revPct: 60, revBase: 0.45, invSoglia: '67%', invPct: 0.30, pensPct: 0.40, pensGap: '55-65', nota: 'I contributi alla Gestione Separata generano prestazioni basse perche calcolate con il sistema contributivo puro.' },
+    inps_art_comm: { nome: 'INPS Artigiani e Commercianti', revPct: 60, revBase: 0.50, invSoglia: '67%', invPct: 0.35, pensPct: 0.50, pensGap: '45-55', nota: 'La gestione INPS Artigiani e Commercianti prevede contribuzione obbligatoria sul reddito (aliquota ~24%). Le prestazioni sono calcolate con sistema misto/contributivo. La pensione di invalidita richiede almeno il 67% di riduzione della capacita lavorativa e almeno 5 anni di contributi (3 nell\'ultimo quinquennio). La reversibilita segue le regole generali INPS. Il tasso di sostituzione e migliore rispetto alla Gestione Separata ma inferiore a quello dei dipendenti.' },
+    cnpadc: { nome: 'CNPADC (Commercialisti)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'La CNPADC eroga la pensione di reversibilita calcolata sulla media dei redditi dichiarati. Le prestazioni di invalidita richiedono una riduzione della capacita lavorativa di almeno 2/3.' },
+    cassaforense: { nome: 'Cassa Forense (Avvocati)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'Cassa Forense eroga pensioni calcolate su base retributiva/contributiva mista. La pensione di invalidita richiede almeno 5 anni di iscrizione e contribuzione.' },
+    enpam: { nome: 'ENPAM (Medici/Odontoiatri)', revPct: 60, revBase: 0.40, invSoglia: '2/3 (66,7%)', invPct: 0.30, pensPct: 0.40, pensGap: '55-65', nota: 'ENPAM offre prestazioni leggermente migliori grazie alla contribuzione obbligatoria piu elevata (Quota A + Quota B). Prevede anche sussidi per inabilita temporanea.' },
+    inarcassa: { nome: 'Inarcassa (Ingegneri/Architetti)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'Inarcassa prevede pensione di invalidita (capacita ridotta a meno di 1/3) e inabilita (incapacita assoluta). La reversibilita e calcolata sulla pensione maturata.' },
+    enpacl: { nome: 'ENPACL (Consulenti del Lavoro)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'ENPACL prevede la pensione di invalidita con soglia a 2/3 di riduzione e la pensione di inabilita per incapacita totale.' },
+    cnpr: { nome: 'CNPR (Ragionieri)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'CNPR eroga prestazioni di invalidita e inabilita con criteri simili alle altre Casse professionali.' },
+    enpap: { nome: 'ENPAP (Psicologi)', revPct: 60, revBase: 0.30, invSoglia: '2/3 (66,7%)', invPct: 0.20, pensPct: 0.30, pensGap: '65-75', nota: 'ENPAP, essendo una Cassa relativamente giovane con contribuzione contenuta, eroga prestazioni generalmente piu basse. Il tasso di sostituzione atteso e tra i piu bassi.' },
+    enpav: { nome: 'ENPAV (Veterinari)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'ENPAV prevede pensioni di invalidita e inabilita con requisiti simili alle altre Casse professionali.' },
+    cipag: { nome: 'CIPAG (Geometri)', revPct: 60, revBase: 0.35, invSoglia: '2/3 (66,7%)', invPct: 0.25, pensPct: 0.35, pensGap: '60-70', nota: 'CIPAG eroga prestazioni di invalidita, inabilita e reversibilita calcolate sulla base dei redditi professionali dichiarati.' },
+    eppi: { nome: 'EPPI (Periti Industriali)', revPct: 60, revBase: 0.30, invSoglia: '2/3 (66,7%)', invPct: 0.20, pensPct: 0.30, pensGap: '65-75', nota: 'EPPI ha una contribuzione contenuta e le prestazioni di invalidita e pensione sono generalmente piu basse rispetto alle Casse maggiori.' },
+    altra_cassa: { nome: 'Altra Cassa professionale', revPct: 60, revBase: 0.30, invSoglia: '2/3 (66,7%)', invPct: 0.20, pensPct: 0.30, pensGap: '65-75', nota: 'I dati sono stimati su valori medi delle Casse professionali. Verifica i valori esatti con la tua Cassa di appartenenza.' },
+  };
+
+  // Seleziona la Cassa appropriata
+  const c = (isSelfEmployed && cassa && cassaInfo[cassa]) ? cassaInfo[cassa] : null;
+  const cassaNome = c ? c.nome : 'INPS';
+  const isSpecificCassa = c && cassa !== 'inps';
+
+  const data = {
+
+    vita: (() => {
+      if (isDipendente) {
+        return {
+          stateLabel: 'INPS - Pensione di reversibilita',
+          stateDesc: `In caso di decesso, l'INPS eroga la <b>pensione di reversibilita</b> ai superstiti: circa il <b>60% della pensione</b> al coniuge, +20% per ogni figlio minore (max 100%). Su un reddito di ${fmt(income)}, la reversibilita stimata e circa <b>${fmt(Math.round(income * 0.6 * 0.65))}/anno</b> (ipotizzando una pensione pari al 65% del reddito). Non e previsto alcun capitale una tantum per la famiglia.`,
+          statePct: 35,
+          stateValue: Math.round(income * 0.6 * 0.65),
+          gapLabel: 'Cosa NON copre lo Stato',
+          gapDesc: hasFamily
+            ? `<b>Il reddito della famiglia cala del 40-60% immediatamente.</b> La reversibilita non copre: il mutuo residuo${mortgage > 0 ? ` di ${fmt(mortgage)}` : ''}, le spese straordinarie (istruzione figli, emergenze), il mantenimento del tenore di vita. Senza una TCM, la famiglia deve attingere ai risparmi o ridurre drasticamente il proprio stile di vita.`
+            : `Anche senza figli, restano scoperti: mutuo residuo${mortgage > 0 ? ` di ${fmt(mortgage)}` : ''}, spese funerarie, eventuali debiti, e il partner potrebbe trovarsi senza reddito sufficiente.`,
+          tipLabel: 'Perche serve la TCM',
+          tipDesc: `Una polizza TCM eroga un <b>capitale immediato</b> alla famiglia, a differenza della pensione INPS che e una rendita ridotta. Il capitale copre mutuo, spese immediate e garantisce anni di serenita economica.`,
+        };
+      }
+      // Autonomo / Professionista / Imprenditore
+      const revAnnuo = Math.round(income * c.revPct / 100 * c.revBase);
+      const revPctLabel = Math.round(c.revBase * 100);
+      return {
+        stateLabel: `${cassaNome} - Pensione di reversibilita`,
+        stateDesc: isSpecificCassa
+          ? `La <b>${c.nome}</b> eroga la <b>pensione di reversibilita</b> ai superstiti calcolata sulla pensione maturata. La pensione base stimata e circa il <b>${revPctLabel}%</b> del reddito, e la reversibilita al coniuge e pari a circa il <b>${c.revPct}%</b> di questa. Su un reddito di ${fmt(income)}, la reversibilita stimata e circa <b>${fmt(revAnnuo)}/anno</b>. ${c.nota} <b>Nessun capitale una tantum, nessun TFR.</b>`
+          : `Per i lavoratori autonomi iscritti alla <b>Gestione Separata INPS</b>, la <b>pensione di reversibilita</b> e calcolata con il sistema contributivo puro, tipicamente molto bassa. Su un reddito di ${fmt(income)}, la reversibilita stimata e circa <b>${fmt(revAnnuo)}/anno</b>. Nessun capitale una tantum, nessun TFR.`,
+        statePct: Math.round(revAnnuo / income * 100),
+        stateValue: revAnnuo,
+        gapLabel: isSpecificCassa ? `Cosa NON copre la ${c.nome}` : 'Cosa NON copre lo Stato',
+        gapDesc: hasFamily
+          ? `<b>Il reddito della famiglia cala del 50-70% immediatamente.</b> La reversibilita ${isSpecificCassa ? 'della Cassa' : 'INPS'} non copre: il mutuo residuo${mortgage > 0 ? ` di ${fmt(mortgage)}` : ''}, le spese straordinarie (istruzione figli, emergenze), il mantenimento del tenore di vita. Senza una TCM, la famiglia deve attingere ai risparmi o ridurre drasticamente il proprio stile di vita.`
+          : `Anche senza figli, restano scoperti: mutuo residuo${mortgage > 0 ? ` di ${fmt(mortgage)}` : ''}, spese funerarie, eventuali debiti, e il partner potrebbe trovarsi senza reddito sufficiente.`,
+        tipLabel: 'Perche serve la TCM',
+        tipDesc: `Una polizza TCM eroga un <b>capitale immediato</b> alla famiglia, a differenza della pensione ${isSpecificCassa ? 'della Cassa' : 'INPS'} che e una rendita ridotta e calcolata su basi contributive spesso inferiori al reddito reale. Il capitale copre mutuo, spese immediate e garantisce anni di serenita economica.`,
+      };
+    })(),
+
+    infortuni: {
+      stateLabel: 'INAIL - Copertura infortuni sul lavoro',
+      stateDesc: isDipendente
+        ? `L'INAIL copre <b>solo gli infortuni sul lavoro e in itinere</b> (tragitto casa-lavoro). Per invalidita permanente &gt;6%: indennizzo in capitale. Per IP &gt;16%: rendita mensile calcolata sul reddito (con tetto di ${fmt(Math.min(income, 37000))} circa). L'indennizzo INAIL per una IP del 30% sarebbe circa <b>${fmt(Math.round(Math.min(income, 37000) * 0.3 * 7))}</b> in capitale.`
+        : `Per i lavoratori autonomi${isSpecificCassa ? ` iscritti alla ${c.nome}` : ''}, la <b>copertura INAIL e molto limitata o assente</b>. La maggior parte dei professionisti non e coperta INAIL per gli infortuni. ${isSpecificCassa ? `La ${c.nome} <b>non prevede indennizzi per infortuni</b>.` : 'Anche quando presente, i massimali sono bassi e calcolati su minimali contributivi, non sul reddito reale.'}`,
+      statePct: isDipendente ? 25 : 8,
+      stateValue: isDipendente ? Math.round(Math.min(income, 37000) * 0.3 * 7) : Math.round(income * 0.1),
+      gapLabel: 'Cosa NON copre INAIL',
+      gapDesc: `<b>ZERO copertura per infortuni extra-lavorativi</b>: sport, tempo libero, casa, vacanze. Statisticamente, la maggior parte degli infortuni gravi avviene <b>fuori dal lavoro</b>. Inoltre, anche per gli infortuni sul lavoro, l'indennizzo INAIL spesso non copre la reale perdita economica, soprattutto per redditi medi e alti.`,
+      tipLabel: 'Perche serve una polizza infortuni privata',
+      tipDesc: `Una polizza infortuni privata copre <b>24 ore su 24, in qualsiasi luogo e attivita</b>. Eroga un capitale proporzionale al grado di invalidita permanente e puo includere diaria da ricovero e da gessatura. E l'unica protezione per gli infortuni che avvengono fuori dal lavoro.`,
+    },
+
+    critical: {
+      stateLabel: 'SSN - Nessuna copertura economica per malattie gravi',
+      stateDesc: `Il SSN copre le <b>cure mediche</b> (ricoveri, interventi, chemioterapia, riabilitazione) ma <b>non eroga alcun capitale</b> alla diagnosi di una malattia grave. Il paziente deve affrontare con risorse proprie: perdita di reddito durante le cure, spese accessorie (spostamenti, assistenza domiciliare, adattamenti abitativi), e il peggioramento della qualita di vita.`,
+      statePct: 0,
+      stateValue: 0,
+      gapLabel: 'Cosa NON copre lo Stato in caso di malattia grave',
+      gapDesc: isDipendente
+        ? `<b>Nessun capitale alla diagnosi.</b> Il SSN copre le cure ma non il contraccolpo economico. Un tumore, un infarto o un ictus comportano mesi di assenza dal lavoro, spese extra (trasporti, assistenza, cure complementari) e spesso una riduzione permanente della capacita lavorativa. L'INPS prevede l'indennita di malattia (50-66%) solo per 180 giorni, poi il reddito si azzera. <b>1 persona su 3 riceve una diagnosi di tumore nel corso della vita.</b>`
+        : `<b>Nessun capitale alla diagnosi, nessuna indennita di malattia.</b> Per ${isSpecificCassa ? 'gli iscritti alla ' + c.nome : 'gli autonomi'}, una malattia grave significa <b>zero reddito dal primo giorno</b> piu spese extra (cure, assistenza, trasporti). Il recupero da un tumore, infarto o ictus richiede in media 6-18 mesi. <b>1 persona su 3 riceve una diagnosi di tumore nel corso della vita.</b>`,
+      tipLabel: 'Perche serve una polizza Critical Illness',
+      tipDesc: `Una polizza Critical Illness eroga un <b>capitale immediato alla diagnosi</b> di una malattia grave (tumore, infarto, ictus, insufficienza renale, trapianto d'organo, ecc.). Il capitale e libero: puo essere usato per coprire la perdita di reddito, le spese mediche non coperte dal SSN, l'assistenza domiciliare, o qualsiasi necessita del nucleo familiare durante il periodo di cura e recupero.`,
+    },
+
+    ltc: {
+      stateLabel: 'Stato - Indennita di accompagnamento',
+      stateDesc: `Lo Stato prevede l'<b>indennita di accompagnamento</b> per chi e riconosciuto invalido civile al 100% con impossibilita di deambulare o compiere atti quotidiani. L'importo e di circa <b>${fmt(560)}/mese</b> (${fmt(6720)}/anno), uguale per tutti, indipendentemente dal reddito. E l'unica prestazione pubblica per la non autosufficienza.`,
+      statePct: 8,
+      stateValue: 6720,
+      gapLabel: 'Cosa NON copre lo Stato',
+      gapDesc: `<b>L'indennita di accompagnamento copre solo una minima parte dei costi reali.</b> Un'assistenza domiciliare 24h costa tra <b>${fmt(2000)} e ${fmt(3500)}/mese</b>. Una RSA (casa di riposo) costa tra <b>${fmt(1800)} e ${fmt(3500)}/mese</b>. Con soli ${fmt(560)}/mese dallo Stato, la differenza ricade interamente sulla famiglia, spesso per anni o decenni. La non autosufficienza e il rischio piu sottovalutato: dopo i 65 anni, la probabilita di diventare non autosufficienti supera il <b>25%</b>.`,
+      tipLabel: 'Perche serve una polizza LTC',
+      tipDesc: `Una polizza Long Term Care eroga una <b>rendita mensile vitalizia</b> (tipicamente da ${fmt(1000)} a ${fmt(3000)}/mese) nel momento in cui l'assicurato diventa non autosufficiente, cioe non riesce piu a svolgere autonomamente almeno 2-3 delle 6 attivita fondamentali della vita quotidiana (lavarsi, vestirsi, mangiare, spostarsi, ecc.). La rendita e esentasse e permette di pagare assistenza domiciliare o una struttura senza gravare sui risparmi della famiglia.`,
+    },
+
+    invalidita: (() => {
+      if (isDipendente) {
+        return {
+          stateLabel: 'INPS - Assegno di invalidita / Pensione di inabilita',
+          stateDesc: `L'INPS prevede due prestazioni: l'<b>Assegno Ordinario di Invalidita</b> (riduzione capacita lavorativa &gt;67%) pari a circa il <b>40-50%</b> dell'ultimo reddito, e la <b>Pensione di Inabilita</b> (incapacita al 100%) pari a circa il <b>55-65%</b>. Su un reddito di ${fmt(income)}, l'assegno AOI sarebbe circa <b>${fmt(Math.round(income * 0.45))}/anno</b>. Richiede almeno 5 anni di contributi (di cui 3 nell'ultimo quinquennio).`,
+          statePct: 30,
+          stateValue: Math.round(income * 0.45),
+          gapLabel: 'Cosa NON copre l\'INPS',
+          gapDesc: `<b>Soglia altissima</b>: serve almeno il 67% di invalidita per accedere all'assegno. Invalidita del 50-66%? Nessuna prestazione, ma potresti non riuscire piu a svolgere il tuo lavoro. Anche con l'assegno, <b>il reddito cala del 50-55%</b>. Non ci sono capitali per spese di riabilitazione, adattamento della casa o assistenza domiciliare.`,
+          tipLabel: 'Perche serve una copertura privata',
+          tipDesc: `Una polizza invalidita da malattia eroga un <b>capitale una tantum</b> o una <b>rendita integrativa</b> gia a partire da soglie di invalidita piu basse (tipicamente dal 25-30%). Copre il gap di reddito e fornisce le risorse per affrontare spese mediche, riabilitazione e nuova organizzazione di vita.`,
+        };
+      }
+      // Autonomo / Professionista / Imprenditore
+      const invValue = Math.round(income * c.invPct);
+      const invPctLabel = Math.round(c.invPct * 100);
+      return {
+        stateLabel: `${cassaNome} - Pensione di invalidita`,
+        stateDesc: isSpecificCassa
+          ? `La <b>${c.nome}</b> prevede la pensione di invalidita quando la capacita lavorativa e ridotta a meno di <b>${c.invSoglia}</b>. La prestazione stimata e circa il <b>${invPctLabel}%</b> del reddito. Su un reddito di ${fmt(income)}, l'assegno sarebbe circa <b>${fmt(invValue)}/anno</b>. ${c.nota}`
+          : `Per gli autonomi iscritti alla <b>Gestione Separata INPS</b>, l'assegno di invalidita e calcolato sulla base contributiva, spesso molto inferiore al reddito reale. Su un reddito di ${fmt(income)}, l'assegno potrebbe essere solo <b>${fmt(invValue)}/anno</b> o meno.`,
+        statePct: Math.round(invValue / income * 100),
+        stateValue: invValue,
+        gapLabel: isSpecificCassa ? `Cosa NON copre la ${c.nome}` : 'Cosa NON copre l\'INPS',
+        gapDesc: `<b>Soglia altissima</b>: serve almeno ${c ? c.invSoglia : 'il 67%'} di riduzione della capacita lavorativa per accedere alla prestazione. Invalidita parziale (es. 40-50%)? <b>Nessuna prestazione dalla ${isSpecificCassa ? 'Cassa' : 'Gestione Separata'}</b>, ma potresti non riuscire piu a svolgere il tuo lavoro. Anche con la pensione di invalidita, <b>il reddito cala del 60-70%</b>. Non ci sono capitali per spese di riabilitazione, adattamento della casa o assistenza domiciliare.`,
+        tipLabel: 'Perche serve una copertura privata',
+        tipDesc: `Una polizza invalidita da malattia eroga un <b>capitale una tantum</b> o una <b>rendita integrativa</b> gia a partire da soglie di invalidita piu basse (tipicamente dal 25-30%). Copre il gap di reddito e fornisce le risorse per affrontare spese mediche, riabilitazione e nuova organizzazione di vita.`,
+      };
+    })(),
+
+    casa: {
+      stateLabel: 'Stato - Nessuna copertura automatica',
+      stateDesc: `Lo Stato <b>non offre alcuna assicurazione automatica</b> sulla casa. In caso di catastrofe naturale (terremoto, alluvione), lo Stato puo intervenire con contributi parziali e tardivi, ma <b>non e garantito e non copre mai il 100% del danno</b>. Per danni da incendio, furto, atti vandalici, rottura impianti: nessun intervento pubblico.`,
+      statePct: 0,
+      stateValue: 0,
+      gapLabel: 'I rischi senza copertura',
+      gapDesc: `<b>Incendio</b>: puo distruggere l'intero valore del fabbricato e del contenuto. <b>Responsabilita civile</b>: un danno causato a terzi (perdita d'acqua al vicino, caduta di tegole) puo costare decine di migliaia di euro. <b>Furto</b>: nessun rimborso. <b>Eventi atmosferici</b>: sempre piu frequenti, nessuna tutela automatica.`,
+      tipLabel: 'Perche serve una polizza casa',
+      tipDesc: `Protegge il <b>patrimonio piu importante</b>: il tuo immobile e tutto cio che contiene. Include la RC del nucleo familiare, che copre danni causati da qualsiasi membro della famiglia (anche i figli) a terzi. Con pochi euro al mese si proteggono beni per centinaia di migliaia di euro.`,
+    },
+
+    rcprof: {
+      stateLabel: 'Stato - Nessuna copertura',
+      stateDesc: `Lo Stato <b>non offre alcuna protezione</b> per i danni professionali. La RC professionale e <b>obbligatoria per legge</b> (DPR 137/2012) per tutti gli iscritti a Ordini e Collegi. Anche per chi non ha l'obbligo, un errore professionale puo generare richieste di risarcimento molto elevate.`,
+      statePct: 0,
+      stateValue: 0,
+      gapLabel: 'I rischi senza RC professionale',
+      gapDesc: `Un singolo errore professionale puo generare una richiesta di risarcimento da <b>centinaia di migliaia di euro</b>. Il professionista risponde con il proprio patrimonio personale. Le cause per responsabilita professionale sono in costante aumento.`,
+      tipLabel: 'Cosa copre la RC professionale',
+      tipDesc: `Copre i danni patrimoniali causati a terzi nell'esercizio della professione, incluse le <b>spese legali di difesa</b>. Protegge il patrimonio personale del professionista separandolo dai rischi dell'attivita lavorativa.`,
+    },
+
+    previdenza: (() => {
+      if (isDipendente) {
+        return {
+          stateLabel: 'INPS - Pensione pubblica',
+          stateDesc: `Con il sistema contributivo, il <b>tasso di sostituzione</b> (rapporto pensione/ultimo reddito) per un dipendente e stimato al <b>60-70%</b> circa. Su un reddito di ${fmt(income)}, la pensione pubblica stimata sarebbe circa <b>${fmt(Math.round(income * 0.65))}/anno</b>. Il gap rispetto all'ultimo stipendio e di almeno il 30-35%.`,
+          statePct: 65,
+          stateValue: Math.round(income * 0.65),
+          gapLabel: 'Il gap pensionistico',
+          gapDesc: `Al momento della pensione, il reddito cala del <b>30-35%</b> rispetto all'ultimo stipendio. Questo significa meno soldi per: spese mediche (che aumentano con l'eta), viaggi, supporto ai figli, manutenzione casa. Con l'aspettativa di vita in aumento, la pensione deve durare 20-30 anni.`,
+          tipLabel: 'Perche serve la previdenza integrativa',
+          tipDesc: `Un fondo pensione o PIP costruisce un <b>secondo pilastro</b> che integra la pensione pubblica. I versamenti sono <b>deducibili fino a 5.300 &euro;/anno</b>, con un vantaggio fiscale immediato. Prima si inizia, maggiore sara il capitale accumulato grazie all'effetto dell'interesse composto.`,
+        };
+      }
+      // Autonomo / Professionista / Imprenditore
+      const pensPctLabel = Math.round(c.pensPct * 100);
+      const pensValue = Math.round(income * c.pensPct);
+      return {
+        stateLabel: `${cassaNome} - Pensione`,
+        stateDesc: isSpecificCassa
+          ? `Con la <b>${c.nome}</b>, il <b>tasso di sostituzione</b> stimato e circa il <b>${pensPctLabel}%</b> del reddito. Su un reddito di ${fmt(income)}, la pensione stimata dalla Cassa sarebbe circa <b>${fmt(pensValue)}/anno</b>. Il gap rispetto all'ultimo reddito e del <b>${c.pensGap}%</b>. ${c.nota}`
+          : `Per gli autonomi iscritti alla <b>Gestione Separata INPS</b>, il tasso di sostituzione e molto basso: circa il <b>${pensPctLabel}%</b> del reddito. Su un reddito di ${fmt(income)}, la pensione stimata sarebbe circa <b>${fmt(pensValue)}/anno</b>. Il gap e del ${c.pensGap}%.`,
+        statePct: pensPctLabel,
+        stateValue: pensValue,
+        gapLabel: 'Il gap pensionistico',
+        gapDesc: `Al momento della pensione, il reddito cala del <b>${c.pensGap}%</b> rispetto all'ultimo reddito professionale. ${isSpecificCassa ? `La ${c.nome} eroga pensioni calcolate sulla base contributiva che spesso non riflette il reale tenore di vita del professionista.` : ''} Questo significa meno soldi per: spese mediche, viaggi, supporto ai figli, manutenzione casa. Con l'aspettativa di vita in aumento, la pensione deve durare 20-30 anni.`,
+        tipLabel: 'Perche serve la previdenza integrativa',
+        tipDesc: `Un fondo pensione o PIP costruisce un <b>secondo pilastro</b> che integra la pensione ${isSpecificCassa ? 'della Cassa' : 'pubblica'}. I versamenti sono <b>deducibili fino a 5.300 &euro;/anno</b>, con un vantaggio fiscale immediato. Prima si inizia, maggiore sara il capitale accumulato grazie all'effetto dell'interesse composto.`,
+      };
+    })(),
+  };
+
+  return data[areaKey] || null;
+}
+
+// ============================================================
+// FORMULA EXPLANATION (how we calculate the recommended amount)
+// ============================================================
+function getFormulaExplanation(key, params) {
+  const { income, family, occ, age, mortgage, savings, depMultiplier, yearsProtection, isSelfEmployed, recValue, cassa } = params;
+
+  // Cassa info for formula explanations
+  const cassaNames = {
+    inps: 'INPS Gestione Separata', inps_art_comm: 'INPS Artigiani e Commercianti', cnpadc: 'CNPADC', cassaforense: 'Cassa Forense',
+    enpam: 'ENPAM', inarcassa: 'Inarcassa', enpacl: 'ENPACL', cnpr: 'CNPR',
+    enpap: 'ENPAP', enpav: 'ENPAV', cipag: 'CIPAG', eppi: 'EPPI', altra_cassa: 'la Cassa'
+  };
+  const isSpecificCassa = isSelfEmployed && cassa && cassa !== 'inps';
+  const cassaLabel = (isSelfEmployed && cassa) ? (cassaNames[cassa] || 'la Cassa') : 'INPS';
+
+  const familyLabels = {
+    'single': 'Single (coefficiente 1,0)',
+    'couple': 'In coppia senza figli (coeff. 1,3)',
+    'family_1': '1 figlio a carico (coeff. 1,6)',
+    'family_2': '2 figli a carico (coeff. 1,9)',
+    'family_3': '3+ figli a carico (coeff. 2,2)',
+  };
+  const familyLabel = familyLabels[family] || '';
+
+  const formulas = {
+
+    vita: (() => {
+      if (family === 'single') {
+        if (mortgage > 0) {
+          return {
+            steps: [
+              `<b>Mutuo residuo</b> da estinguere: ${fmt(mortgage)}`,
+              `<b>Reddito annuo</b> ${fmt(income)} &times; 2 anni di transizione = ${fmt(income * 2)}`,
+              `<b>Somma</b>: ${fmt(mortgage)} + ${fmt(income * 2)} = ${fmt(mortgage + income * 2)}`,
+            ],
+            result: `Capitale vita consigliato: ${fmt(recValue)}`,
+            note: 'Per un single, il capitale protegge il mutuo e garantisce un periodo di transizione agli eredi. Arrotondato ai 10.000\u20AC.'
+          };
+        } else {
+          return {
+            steps: [
+              `<b>Reddito annuo netto</b>: ${fmt(income)}`,
+              `<b>Moltiplicatore base</b> per single senza mutuo: &times; 3`,
+              `<b>Calcolo</b>: ${fmt(income)} &times; 3 = ${fmt(income * 3)}`,
+            ],
+            result: `Capitale vita consigliato: ${fmt(recValue)}`,
+            note: 'Capitale minimo per coprire debiti residui, spese funerarie e periodo di transizione.'
+          };
+        }
+      }
+      const annualNeed = income * depMultiplier;
+      const rawCalc = annualNeed * yearsProtection * 0.7;
+      const withMortgage = rawCalc + mortgage;
+      const afterSavings = withMortgage - savings;
+      return {
+        steps: [
+          `<b>Reddito annuo</b> ${fmt(income)} &times; <b>coefficiente familiare</b> ${depMultiplier} (${familyLabel}) = <b>${fmt(annualNeed)}/anno</b> di fabbisogno familiare`,
+          `<b>Anni di protezione</b>: ${yearsProtection} anni (fino alla pensione, max 20)`,
+          `<b>Coefficiente di sicurezza</b>: 70% (la famiglia non spende il 100% del reddito)`,
+          `<b>Fabbisogno base</b>: ${fmt(annualNeed)} &times; ${yearsProtection} anni &times; 0,7 = ${fmt(Math.round(rawCalc))}`,
+          mortgage > 0 ? `<b>+ Mutuo residuo</b>: + ${fmt(mortgage)} = ${fmt(Math.round(withMortgage))}` : null,
+          savings > 0 ? `<b>- Risparmi disponibili</b>: - ${fmt(savings)} = ${fmt(Math.round(afterSavings))}` : null,
+          `<b>Minimo garantito</b>: almeno 5 volte il reddito annuo (${fmt(income * 5)})`,
+        ].filter(Boolean),
+        result: `Capitale vita consigliato: ${fmt(recValue)}`,
+        note: `Il capitale deve garantire alla famiglia il mantenimento del tenore di vita per ${yearsProtection} anni, coprire il mutuo e resistere all'inflazione. Arrotondato ai 10.000\u20AC.`
+      };
+    })(),
+
+    infortuni: {
+      steps: [
+        `<b>Reddito annuo netto</b>: ${fmt(income)}`,
+        `<b>Moltiplicatore</b>: &times; ${isSelfEmployed ? '8' : '6'} (${isSelfEmployed ? (isSpecificCassa ? `iscritto ${cassaLabel}: nessuna copertura INAIL, la Cassa non copre infortuni` : 'autonomo: piu esposto perche INAIL non copre o copre poco') : 'dipendente: INAIL copre solo infortuni sul lavoro'})`,
+        `<b>Coefficiente familiare</b>: &times; ${depMultiplier} (${familyLabel})`,
+        `<b>Calcolo</b>: ${fmt(income)} &times; ${isSelfEmployed ? '8' : '6'} &times; ${depMultiplier} = ${fmt(Math.round(income * (isSelfEmployed ? 8 : 6) * depMultiplier))}`,
+      ],
+      result: `Capitale infortuni consigliato: ${fmt(recValue)}`,
+      note: `Il capitale deve compensare la perdita di reddito futura in caso di invalidita permanente grave. Il moltiplicatore e piu alto per gli autonomi perche l'INAIL li copre poco o nulla per gli infortuni extra-lavorativi. Arrotondato ai 10.000\u20AC.`
+    },
+
+    critical: {
+      steps: [
+        `<b>Capitale fisso consigliato</b>: ${fmt(100000)}`,
+        `<b>Motivazione</b>: una malattia grave (tumore, infarto, ictus) comporta in media 6-18 mesi di cure e recupero`,
+        `<b>Costi stimati</b>: perdita di reddito + spese extra (assistenza, trasporti, cure non SSN) = da ${fmt(50000)} a ${fmt(150000)}`,
+        `<b>Capitale consigliato</b>: ${fmt(recValue)} (valore standard di mercato)`,
+      ],
+      result: `Capitale Critical Illness consigliato: ${fmt(recValue)}`,
+      note: `Il capitale viene erogato in un'unica soluzione alla diagnosi di una malattia grave prevista in polizza. E utilizzabile liberamente: perdita di reddito, cure private, assistenza, adattamenti abitativi. Si consiglia un minimo di ${fmt(100000)} indipendentemente dal reddito, perche il costo di una malattia grave e simile per tutti.`
+    },
+
+    ltc: {
+      steps: [
+        `<b>Costo medio assistenza</b>: da ${fmt(2000)} a ${fmt(3000)}/mese per assistenza domiciliare o RSA`,
+        `<b>Indennita di accompagnamento statale</b>: ${fmt(560)}/mese (uguale per tutti)`,
+        `<b>Gap mensile da coprire</b>: ${fmt(2500)} - ${fmt(560)} = circa <b>${fmt(1940)}/mese</b>`,
+        `<b>Rendita mensile consigliata</b>: ${fmt(recValue)}/mese (arrotondata ai 100\u20AC)`,
+        age >= 50 ? `<b>Nota eta</b>: a ${age} anni la sottoscrizione e piu urgente (premi crescono rapidamente dopo i 50 anni)` : null,
+      ].filter(Boolean),
+      result: `Rendita LTC mensile consigliata: ${fmt(recValue)}/mese`,
+      note: `La rendita LTC deve coprire il costo reale dell'assistenza meno l'indennita statale. Dopo i 65 anni, 1 persona su 4 diventa non autosufficiente. Il costo medio di una badante o di una RSA supera i ${fmt(2000)}/mese, e la non autosufficienza dura in media 6-8 anni. Senza LTC, il costo ricade interamente sulla famiglia.`
+    },
+
+    invalidita: {
+      steps: [
+        `<b>Reddito annuo netto</b>: ${fmt(income)}`,
+        `<b>Moltiplicatore</b>: &times; ${isSelfEmployed ? '7' : '5'} (${isSelfEmployed ? (isSpecificCassa ? `iscritto ${cassaLabel}: la Cassa copre solo il 20-30% del reddito` : 'autonomo: l\'INPS copre solo il 30-40% del reddito') : 'dipendente: l\'INPS copre circa il 40-50% del reddito'})`,
+        `<b>Calcolo</b>: ${fmt(income)} &times; ${isSelfEmployed ? '7' : '5'} = ${fmt(income * (isSelfEmployed ? 7 : 5))}`,
+      ],
+      result: `Capitale invalidita consigliato: ${fmt(recValue)}`,
+      note: `Il capitale deve compensare il gap tra la prestazione ${isSpecificCassa ? 'della ' + cassaLabel : 'INPS'} (che copre solo il ${isSelfEmployed ? (isSpecificCassa ? '20-30' : '30-40') : '40-50'}% del reddito e richiede almeno ${isSpecificCassa ? 'i 2/3' : 'il 67%'} di invalidita) e il reddito reale, piu le spese di riabilitazione e adattamento. Arrotondato ai 10.000\u20AC.`
+    },
+
+    casa: {
+      steps: [
+        `<b>Valore minimo di riferimento</b>: ${fmt(150000)} (soglia minima per copertura fabbricato + contenuto + RC)`,
+        `<b>Copertura consigliata</b>: ${fmt(recValue)}`,
+        `Include: fabbricato, contenuto, responsabilita civile del nucleo familiare`,
+      ],
+      result: `Copertura casa consigliata: ${fmt(recValue)}`,
+      note: `Lo Stato non offre nessuna assicurazione automatica sull'immobile. Il valore include fabbricato, contenuto e RC del nucleo familiare. Si consiglia di adeguare il capitale alla stima reale dell'immobile.`
+    },
+
+    rcprof: {
+      steps: [
+        `<b>Reddito annuo</b>: ${fmt(income)}`,
+        `<b>Moltiplicatore</b>: &times; 3 (un errore professionale puo generare richieste di risarcimento pari a diversi anni di fatturato)`,
+        `<b>Calcolo</b>: ${fmt(income)} &times; 3 = ${fmt(income * 3)}`,
+        `<b>Minimo di mercato</b>: ${fmt(500000)} (soglia raccomandata per la maggior parte delle professioni)`,
+        `<b>Valore utilizzato</b>: il maggiore tra i due = ${fmt(Math.max(income * 3, 500000))}`,
+      ],
+      result: `Massimale RC professionale consigliato: ${fmt(recValue)}`,
+      note: `La RC professionale e obbligatoria per legge per molte categorie (DPR 137/2012). Il massimale deve coprire il peggior scenario ragionevole di danno a terzi. Arrotondato ai 50.000\u20AC.`
+    },
+
+    previdenza: {
+      steps: [
+        `<b>Reddito annuo netto</b>: ${fmt(income)}`,
+        `<b>Percentuale di accantonamento consigliata</b>: ${isSelfEmployed ? '15%' : '7%'} (${isSelfEmployed ? (isSpecificCassa ? `iscritto ${cassaLabel}: gap pensionistico del 60-70%, serve un accantonamento aggressivo` : 'autonomo: gap pensionistico del 50-60%, serve un accantonamento piu aggressivo') : 'dipendente: gap pensionistico del 30-35%, la pensione pubblica copre di piu'})`,
+        `<b>Calcolo</b>: ${fmt(income)} &times; ${isSelfEmployed ? '15%' : '7%'} = ${fmt(Math.round(income * (isSelfEmployed ? 0.15 : 0.07)))}`,
+        `<b>Vantaggio fiscale</b>: i versamenti sono deducibili fino a 5.300 &euro;/anno`,
+      ],
+      result: `Versamento annuo previdenza consigliato: ${fmt(recValue)}`,
+      note: `L'obiettivo e colmare il gap tra la pensione ${isSpecificCassa ? 'della ' + cassaLabel : 'pubblica'} (che per ${isSelfEmployed ? (isSpecificCassa ? `gli iscritti alla ${cassaLabel} sara circa il 30-40%` : 'gli autonomi sara circa il 40-50%') : 'i dipendenti sara circa il 60-70%'} dell'ultimo reddito) e il tenore di vita desiderato. Prima si inizia, maggiore e il beneficio dell'interesse composto. Arrotondato ai 500\u20AC.`
+    },
+  };
+
+  return formulas[key] || null;
+}
+
+// ============================================================
+// CALCULATION ENGINE
+// ============================================================
+function calculateResults() {
+  const age = val('clientAge');
+  const income = val('income');
+  const family = document.getElementById('familyStatus').value;
+  const occ = document.getElementById('occupation').value;
+  const mortgage = document.getElementById('hasMortgage').value === 'yes' ? val('mortgageAmount') : 0;
+  const savings = val('savings');
+  const homeOwner = true;
+  const homeValue = 150000;
+  const partnerIncome = val('partnerIncome');
+
+  let depMultiplier = 1;
+  if (family === 'couple') depMultiplier = 1.3;
+  if (family === 'family_1') depMultiplier = 1.6;
+  if (family === 'family_2') depMultiplier = 1.9;
+  if (family === 'family_3') depMultiplier = 2.2;
+
+  const isSelfEmployed = ['autonomo', 'professionista', 'imprenditore'].includes(occ);
+  const cassa = isSelfEmployed ? document.getElementById('cassaPrev').value : 'inps';
+  const yearsToRetirement = Math.max(67 - age, 5);
+
+  // Recommended coverages
+  let recVita = 0;
+  const annualNeed = income * depMultiplier;
+  const yearsProtection = Math.min(yearsToRetirement, 20);
+  recVita = (annualNeed * yearsProtection * 0.7) + mortgage - savings;
+  recVita = Math.max(recVita, income * 5);
+  if (family === 'single') recVita = mortgage > 0 ? mortgage + income * 2 : income * 3;
+  recVita = Math.round(recVita / 10000) * 10000;
+
+  let recInfortuni = income * (isSelfEmployed ? 8 : 6) * depMultiplier;
+  recInfortuni = Math.round(recInfortuni / 10000) * 10000;
+
+  let recCritical = 100000;
+
+  // LTC: rendita mensile consigliata (costo medio assistenza - indennita accompagnamento)
+  let recLtc = age < 40 ? 1500 : age < 55 ? 2000 : 2500;
+  recLtc = Math.round(recLtc / 100) * 100;
+
+  let recInvalidita = income * (isSelfEmployed ? 7 : 5);
+  recInvalidita = Math.round(recInvalidita / 10000) * 10000;
+
+  let recCasa = homeOwner ? Math.max(homeValue, 150000) : 30000;
+
+  let recRcprof = 0;
+  if (isSelfEmployed) {
+    recRcprof = Math.max(income * 3, 500000);
+    recRcprof = Math.round(recRcprof / 50000) * 50000;
+  }
+
+  let recPrevidenza = income * (isSelfEmployed ? 0.15 : 0.07);
+  recPrevidenza = Math.round(recPrevidenza / 500) * 500;
+
+  // Actual coverage
+  const actVita = selectedCoverages.has('vita') ? val('cov_vita') : 0;
+  const actInfortuni = selectedCoverages.has('infortuni') ? val('cov_infortuni') : 0;
+  const actCritical = selectedCoverages.has('critical') ? val('cov_critical') : 0;
+  const actInvalidita = selectedCoverages.has('invalidita') ? val('cov_invalidita') : 0;
+  const actCasa = selectedCoverages.has('casa') ? val('cov_casa') : 0;
+  const actRcprof = selectedCoverages.has('rcprof') ? val('cov_rcprof') : 0;
+  const actLtc = selectedCoverages.has('ltc') ? val('cov_ltc') : 0;
+  const actPrevidenza = selectedCoverages.has('previdenza') ? val('cov_previdenza') : 0;
+
+  const areas = [
+    { key: 'vita', name: 'Protezione Vita (TCM)', actual: actVita, rec: recVita, icon: '\u{1F6E1}\uFE0F' },
+    { key: 'infortuni', name: 'Infortuni', actual: actInfortuni, rec: recInfortuni, icon: '\u{1F3E5}' },
+    { key: 'critical', name: 'Critical Illness', actual: actCritical, rec: recCritical, icon: '\u{1F49F}' },
+    { key: 'invalidita', name: 'Invalidita da malattia', actual: actInvalidita, rec: recInvalidita, icon: '\u2695\uFE0F' },
+    { key: 'ltc', name: 'Long Term Care (LTC)', actual: actLtc, rec: recLtc, icon: '\u{1F9D1}\u200D\u{1F9BD}' },
+    { key: 'casa', name: 'Casa / Patrimonio', actual: actCasa, rec: recCasa, icon: '\u{1F3E0}' },
+  ];
+
+  if (isSelfEmployed) {
+    areas.push({ key: 'rcprof', name: 'RC Professionale', actual: actRcprof, rec: recRcprof, icon: '\u{1F4BC}' });
+  }
+  areas.push({ key: 'previdenza', name: 'Previdenza integrativa', actual: actPrevidenza, rec: recPrevidenza, icon: '\u{1F3AF}' });
+
+  // Get public coverage info and formula explanations for each area
+  const formulaParams = { income, family, occ, age, mortgage, savings, depMultiplier, yearsProtection, isSelfEmployed, cassa };
+  areas.forEach(a => {
+    a.pub = getPublicCoverageInfo(a.key, occ, income, family, age, mortgage, cassa);
+    a.formula = getFormulaExplanation(a.key, { ...formulaParams, recValue: a.rec });
+  });
+
+  // Score
+  const weights = {
+    'Protezione Vita (TCM)': 25, 'Infortuni': 15, 'Critical Illness': 12,
+    'Invalidita da malattia': 15, 'Long Term Care (LTC)': 10, 'Casa / Patrimonio': 8, 'RC Professionale': 10, 'Previdenza integrativa': 5
+  };
+  let totalWeight = 0, weightedScore = 0;
+  areas.forEach(a => {
+    const w = weights[a.name] || 10;
+    totalWeight += w;
+    weightedScore += Math.min(a.actual / a.rec, 1) * w;
+  });
+  const overallScore = Math.round((weightedScore / totalWeight) * 100);
+
+  goToStep(4);
+  renderResults(overallScore, areas, occ, income);
+}
+
+function renderResults(score, areas, occ, income) {
+  const name = document.getElementById('clientName').value || 'Cliente';
+
+  const circle = document.getElementById('scoreCircle');
+  circle.className = 'score-circle ' + (score < 40 ? 'score-low' : score < 70 ? 'score-mid' : 'score-high');
+  document.getElementById('scoreValue').textContent = score + '%';
+  document.getElementById('resultName').textContent = name;
+
+  let summary = '';
+  if (score < 30) summary = 'La tua situazione presenta scoperti significativi in diverse aree.';
+  else if (score < 50) summary = 'Hai alcune coperture ma ci sono aree importanti da integrare.';
+  else if (score < 70) summary = 'Buon livello di copertura. Qualche area da migliorare.';
+  else if (score < 90) summary = 'Ottima protezione. Piccoli aggiustamenti consigliati.';
+  else summary = 'Eccellente! Protezione completa e ben calibrata.';
+  document.getElementById('resultSummary').textContent = summary;
+
+  // ---- SVG donut helper ----
+  function makeDonut(statePct, privatePct, gapPct, size) {
+    const r = 38, cx = 50, cy = 50, sw = 10;
+    const circ = 2 * Math.PI * r;
+    const s1 = circ * statePct / 100;
+    const s2 = circ * privatePct / 100;
+    const s3 = circ * gapPct / 100;
+    const off1 = 0;
+    const off2 = s1;
+    const off3 = s1 + s2;
+    return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" style="transform:rotate(-90deg)">
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e2e8f0" stroke-width="${sw}"/>
+      ${s3 > 0 ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e53e3e" stroke-width="${sw}" stroke-dasharray="${s3} ${circ - s3}" stroke-dashoffset="${-off3}" stroke-linecap="round"/>` : ''}
+      ${s1 > 0 ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#3182ce" stroke-width="${sw}" stroke-dasharray="${s1} ${circ - s1}" stroke-dashoffset="${-off1}" stroke-linecap="round"/>` : ''}
+      ${s2 > 0 ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#38a169" stroke-width="${sw}" stroke-dasharray="${s2} ${circ - s2}" stroke-dashoffset="${-off2}" stroke-linecap="round"/>` : ''}
+      <text x="${cx}" y="${cy - 2}" text-anchor="middle" fill="#1a365d" font-size="16" font-weight="800" style="transform:rotate(90deg);transform-origin:50% 50%">${Math.round(statePct + privatePct)}%</text>
+      <text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="#718096" font-size="8" style="transform:rotate(90deg);transform-origin:50% 50%">coperto</text>
+    </svg>`;
+  }
+
+  // ---- Donut grid ----
+  const donutHtml = areas.map(a => {
+    const pct = a.rec > 0 ? Math.min(Math.round((a.actual / a.rec) * 100), 100) : 100;
+    const pub = a.pub;
+    const statePct = pub ? pub.statePct : 0;
+    const privatePct = Math.min(pct, 100 - statePct);
+    const gapPct = Math.max(100 - statePct - privatePct, 0);
+    const gap = Math.max(a.rec - a.actual, 0);
+    const suffix = a.key === 'ltc' ? '/mese' : '';
+    let statusClass, statusLabel;
+    if (pct === 0) { statusClass = 'st-scoperto'; statusLabel = 'SCOPERTO'; }
+    else if (pct < 75) { statusClass = 'st-parziale'; statusLabel = 'PARZIALE'; }
+    else { statusClass = 'st-coperto'; statusLabel = 'COPERTO'; }
+
+    return `<div class="donut-card">
+      <div class="donut-name">${a.icon} ${a.name}</div>
+      ${makeDonut(statePct, privatePct, gapPct, 100)}
+      <div class="donut-values">
+        Polizza: <b>${fmt(a.actual)}${suffix}</b><br>
+        Consigliata: <b>${fmt(a.rec)}${suffix}</b>
+        ${gap > 0 ? `<br>Scoperto: <b style="color:#e53e3e">${fmt(gap)}${suffix}</b>` : ''}
+      </div>
+      <span class="donut-status ${statusClass}">${statusLabel}</span>
+    </div>`;
+  }).join('');
+
+  // ---- Detail explanation cards (one per area, below the grid) ----
+  const detailHtml = areas.map(a => {
+    const pub = a.pub;
+    if (!pub) return '';
+    const pct = a.rec > 0 ? Math.min(Math.round((a.actual / a.rec) * 100), 100) : 100;
+    const gap = Math.max(a.rec - a.actual, 0);
+    const suffix = a.key === 'ltc' ? '/mese' : '';
+    const f = a.formula;
+
+    // Build formula steps HTML
+    let formulaHtml = '';
+    if (f && f.steps) {
+      const stepsLi = f.steps.map((s, i) => `<div style="display:flex;gap:.4rem;margin-bottom:.3rem;"><span style="background:#1a365d;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;">${i+1}</span><span style="font-size:.78rem;color:#4a5568;line-height:1.4;">${s}</span></div>`).join('');
+      formulaHtml = `
+        <div style="background:#ebf8ff;padding:.6rem;border-radius:6px;margin-bottom:.5rem;border-left:3px solid #3182ce;">
+          <div style="font-size:.75rem;font-weight:700;color:#1a365d;margin-bottom:.4rem;">&#x1F9EE; Come arriviamo a ${fmt(a.rec)}${suffix}</div>
+          ${stepsLi}
+          <div style="font-size:.8rem;font-weight:700;color:#1a365d;margin-top:.4rem;padding-top:.3rem;border-top:1px solid #bee3f8;">${f.result}</div>
+          ${f.note ? `<div style="font-size:.72rem;color:#718096;margin-top:.25rem;font-style:italic;">${f.note}</div>` : ''}
+        </div>`;
+    }
+
+    // Build "why the gap" HTML — personalized explanation
+    let gapReasonHtml = '';
+    if (gap > 0) {
+      gapReasonHtml = `
+        <div style="background:#fff5f5;padding:.6rem;border-radius:6px;margin-bottom:.5rem;border-left:3px solid #e53e3e;">
+          <div style="font-size:.75rem;font-weight:700;color:#e53e3e;margin-bottom:.25rem;">&#x26A0; Perche hai uno scoperto di ${fmt(gap)}${suffix}</div>
+          <div style="font-size:.78rem;color:#4a5568;line-height:1.45;">Il fabbisogno calcolato per la tua situazione e di <b>${fmt(a.rec)}${suffix}</b>. La tua polizza attuale copre <b>${fmt(a.actual)}${suffix}</b>. La differenza di <b style="color:#e53e3e;">${fmt(gap)}${suffix}</b> e il capitale che resta scoperto e che dovresti integrare.</div>
+        </div>`;
+    }
+
+    return `
+      <div class="explanation-box" style="margin-bottom:.5rem;">
+        <div class="explanation-toggle" onclick="toggleExplanation(this)" style="padding:.6rem .8rem;">
+          <span style="font-size:.85rem;">${a.icon} <b>${a.name}</b>
+            ${gap > 0 ? `<span style="color:#e53e3e;font-weight:600;margin-left:.5rem;">Scoperto ${fmt(gap)}${suffix}</span>` : '<span style="color:#38a169;margin-left:.5rem;">Coperto</span>'}
+          </span>
+          <span class="arrow">&#x25BC;</span>
+        </div>
+        <div class="explanation-content" style="padding:.6rem .8rem .8rem;">
+          <div style="margin-bottom:.6rem;">
+            <div style="font-size:.75rem;font-weight:700;color:#3182ce;margin-bottom:.25rem;">&#x1F3DB; ${pub.stateLabel}</div>
+            <div style="font-size:.78rem;color:#4a5568;line-height:1.45;">${pub.stateDesc}</div>
+          </div>
+          ${pub.gapDesc ? `<div style="background:#fefcbf;padding:.5rem;border-radius:6px;margin-bottom:.5rem;">
+            <div style="font-size:.75rem;font-weight:700;color:#975a16;margin-bottom:.2rem;">&#x26A0; ${pub.gapLabel}</div>
+            <div style="font-size:.78rem;color:#4a5568;line-height:1.45;">${pub.gapDesc}</div>
+          </div>` : ''}
+          ${formulaHtml}
+          ${gapReasonHtml}
+          <div style="background:#f0fff4;padding:.5rem;border-radius:6px;">
+            <div style="font-size:.75rem;font-weight:700;color:#276749;margin-bottom:.2rem;">&#x1F4A1; ${pub.tipLabel}</div>
+            <div style="font-size:.78rem;color:#4a5568;line-height:1.45;">${pub.tipDesc}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('donutGrid').innerHTML = donutHtml
+    + `<div style="grid-column:1/-1;margin-top:.5rem;">
+      <p style="font-size:.85rem;color:var(--text-light);margin-bottom:.5rem;">Clicca su ogni area per vedere cosa copre lo Stato e dove nasce lo scoperto.</p>
+      ${detailHtml}
+    </div>`;
+
+  // Recommendations — compact list
+  const recs = [];
+  areas.forEach(a => {
+    const pct = a.rec > 0 ? Math.round((a.actual / a.rec) * 100) : 100;
+    const gap = Math.max(a.rec - a.actual, 0);
+    const suffix = a.key === 'ltc' ? '/mese' : '';
+    if (pct < 30) {
+      recs.push({ priority: 'high', text: `<b>${a.name}</b> — scoperto di ${fmt(gap)}${suffix}. Intervenire il prima possibile.`, sort: 1 });
+    } else if (pct < 75) {
+      recs.push({ priority: 'medium', text: `<b>${a.name}</b> — coperto al ${pct}%, mancano ${fmt(gap)}${suffix}.`, sort: 2 });
+    }
+  });
+  recs.sort((a, b) => a.sort - b.sort);
+  if (recs.length === 0) {
+    recs.push({ priority: 'low', text: 'Protezione ben calibrata. Revisione annuale consigliata.', sort: 3 });
+  }
+  document.getElementById('recommendations').innerHTML = recs.map(r => {
+    const dot = r.priority === 'high' ? '#e53e3e' : r.priority === 'medium' ? '#dd6b20' : '#38a169';
+    const label = r.priority === 'high' ? '\u26A0\uFE0F' : r.priority === 'medium' ? '\u26A1' : '\u2705';
+    return `<div style="display:flex;align-items:flex-start;gap:.5rem;padding:.5rem 0;border-bottom:1px solid #edf2f7;">
+      <span style="font-size:1rem;flex-shrink:0;">${label}</span>
+      <span style="font-size:.85rem;color:#2d3748;">${r.text}</span>
+    </div>`;
+  }).join('');
+
+  // Footer
+  const today = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('reportDate').textContent = today;
+}
+
+// ============================================================
+// SEND RESULTS BY EMAIL
+// ============================================================
+function sendResultsByEmail() {
+  const clientName = document.getElementById('clientName').value || 'Non specificato';
+  const clientAge = document.getElementById('clientAge').value || '-';
+  const income = document.getElementById('income').value || '-';
+  const familyLabels = {
+    'single': 'Single senza figli',
+    'couple': 'In coppia senza figli',
+    'family_1': 'Famiglia con 1 figlio',
+    'family_2': 'Famiglia con 2 figli',
+    'family_3': 'Famiglia con 3+ figli',
+  };
+  const occLabels = {
+    'dipendente': 'Lavoratore dipendente',
+    'autonomo': 'Lavoratore autonomo / P.IVA',
+    'professionista': 'Libero professionista',
+    'imprenditore': 'Imprenditore / Titolare PMI',
+    'dirigente': 'Dirigente',
+  };
+  const familyVal = document.getElementById('familyStatus').value;
+  const occVal = document.getElementById('occupation').value;
+  const familyText = familyLabels[familyVal] || familyVal;
+  const occText = occLabels[occVal] || occVal;
+  const isSelfEmployedEmail = ['autonomo', 'professionista', 'imprenditore'].includes(occVal);
+  const cassaLabelsEmail = {
+    inps: 'INPS Gestione Separata', inps_art_comm: 'INPS Artigiani e Commercianti', cnpadc: 'CNPADC (Commercialisti)', cassaforense: 'Cassa Forense (Avvocati)',
+    enpam: 'ENPAM (Medici/Odontoiatri)', inarcassa: 'Inarcassa (Ingegneri/Architetti)', enpacl: 'ENPACL (Consulenti del Lavoro)',
+    cnpr: 'CNPR (Ragionieri)', enpap: 'ENPAP (Psicologi)', enpav: 'ENPAV (Veterinari)',
+    cipag: 'CIPAG (Geometri)', eppi: 'EPPI (Periti Industriali)', altra_cassa: 'Altra Cassa professionale',
+  };
+  const cassaVal = isSelfEmployedEmail ? document.getElementById('cassaPrev').value : '';
+  const cassaText = cassaVal ? (cassaLabelsEmail[cassaVal] || cassaVal) : '';
+  const mortgage = document.getElementById('hasMortgage').value === 'yes'
+    ? ('Si - ' + fmt(val('mortgageAmount')))
+    : 'No';
+  const savings = document.getElementById('savings').value || '0';
+  const partnerWorks = document.getElementById('partnerWorks').value;
+  const partnerWorksText = partnerWorks === 'yes' ? 'Si' : partnerWorks === 'no' ? 'No' : 'N/A';
+  const partnerIncome = document.getElementById('partnerIncome').value || '0';
+  const specialNeeds = document.getElementById('specialNeeds').value || 'Nessuna';
+  const concernLabels = {
+    'family': 'Proteggere la famiglia',
+    'income': 'Proteggere il reddito',
+    'health': 'Migliori cure mediche',
+    'assets': 'Proteggere il patrimonio',
+    'retirement': 'Tenore di vita in pensione',
+  };
+  const concernVal = document.getElementById('mainConcern').value;
+  const concernText = concernLabels[concernVal] || '-';
+
+  // Coperture attuali
+  const coverageNames = {
+    'vita': 'Polizza Vita (TCM)',
+    'infortuni': 'Infortuni',
+    'critical': 'Critical Illness (Malattie Gravi)',
+    'invalidita': 'Invalidita da malattia',
+    'ltc': 'Long Term Care (LTC)',
+    'casa': 'Casa / Incendio',
+    'rcprof': 'RC Professionale',
+    'previdenza': 'Previdenza integrativa',
+  };
+  let coverageText = '';
+  if (selectedCoverages.size === 0) {
+    coverageText = 'Nessuna polizza attiva dichiarata';
+  } else {
+    selectedCoverages.forEach(type => {
+      const name = coverageNames[type] || type;
+      const inputEl = document.getElementById('cov_' + type);
+      let value = '';
+      if (inputEl) {
+        if (inputEl.tagName === 'SELECT') {
+          value = inputEl.options[inputEl.selectedIndex].text;
+        } else {
+          value = inputEl.value ? fmt(parseFloat(inputEl.value)) : 'Importo non specificato';
+        }
+      }
+      coverageText += '  - ' + name + ': ' + value + '\n';
+    });
+  }
+
+  // Score e risultati dai donut
+  const scoreText = document.getElementById('scoreValue').textContent;
+  let resultsText = '';
+  document.querySelectorAll('.donut-card').forEach(card => {
+    const name = card.querySelector('.donut-name') ? card.querySelector('.donut-name').textContent.trim() : '';
+    const values = card.querySelector('.donut-values') ? card.querySelector('.donut-values').textContent.trim().replace(/\s+/g, ' ') : '';
+    const status = card.querySelector('.donut-status') ? card.querySelector('.donut-status').textContent.trim() : '';
+    if (name) resultsText += '  ' + name + ' | ' + values + ' | ' + status + '\n';
+  });
+
+  // Raccomandazioni
+  let recsText = '';
+  document.getElementById('recommendations').querySelectorAll('div[style]').forEach(rec => {
+    const text = rec.textContent.trim().replace(/\s+/g, ' ');
+    if (text) recsText += '  - ' + text + '\n';
+  });
+
+  const today = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const subject = 'Analisi Protezione Assicurativa - ' + clientName;
+  const body = `ANALISI PROTEZIONE ASSICURATIVA
+Generata il ${today}
+${'='.repeat(45)}
+
+DATI PERSONALI
+${'-'.repeat(30)}
+Nome: ${clientName}
+Eta: ${clientAge} anni
+Stato familiare: ${familyText}
+Occupazione: ${occText}${cassaText ? '\nCassa previdenziale: ' + cassaText : ''}
+Reddito annuo netto: ${income ? fmt(parseFloat(income)) : '-'}
+Mutuo: ${mortgage}
+Risparmi: ${savings ? fmt(parseFloat(savings)) : '-'}
+Partner lavora: ${partnerWorksText}
+Reddito partner: ${partnerIncome !== '0' ? fmt(parseFloat(partnerIncome)) : '-'}
+Esigenze particolari: ${specialNeeds}
+Preoccupazione principale: ${concernText}
+
+COPERTURE ATTUALI
+${'-'.repeat(30)}
+${coverageText}
+
+RISULTATO ANALISI: ${scoreText} protetto
+${'-'.repeat(30)}
+${resultsText}
+
+RACCOMANDAZIONI
+${'-'.repeat(30)}
+${recsText}
+${'='.repeat(45)}
+Questo report e stato generato dal tool di analisi protezione.
+Il cliente ha richiesto di essere contattato per un approfondimento.
+`;
+
+  // Mailto con body breve (i browser troncano dopo ~2000 caratteri)
+  const shortBody = `Buongiorno,\n\nho completato l'analisi protezione assicurativa.\n\nCliente: ${clientName}\nPunteggio: ${scoreText}\n\nI risultati completi sono stati copiati negli appunti. Incolla qui sotto per vederli.\n\n---\n`;
+
+  const mailtoLink = 'mailto:tommaso.bertacco@gmail.com'
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body=' + encodeURIComponent(shortBody);
+
+  // Copy full report to clipboard first
+  navigator.clipboard.writeText(body).then(() => {
+    window.location.href = mailtoLink;
+    const msg = document.getElementById('emailSentMsg');
+    msg.classList.remove('hidden');
+    msg.innerHTML = '\u2705 Risultati copiati negli appunti e email aperta.<br><b>Incolla (Ctrl+V / Cmd+V) nel corpo della mail</b> per inviare il report completo.';
+  }).catch(() => {
+    // Fallback: open mailto with truncated body
+    window.location.href = 'mailto:tommaso.bertacco@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body.substring(0, 1500) + '\n\n[...Report troncato per limiti email. Contattami per il report completo.]');
+    const msg = document.getElementById('emailSentMsg');
+    msg.classList.remove('hidden');
+    msg.textContent = '\u2705 Si sta aprendo la tua app email. Il report potrebbe essere troncato — contatta il consulente per il report completo.';
+  });
+}
+
+// ============================================================
+function resetAll() {
+  currentStep = 1;
+  selectedCoverages.clear();
+  document.querySelectorAll('.coverage-item').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('input[type="number"], input[type="text"]').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.getElementById('mortgageGroup').classList.add('hidden');
+  const msg = document.getElementById('emailSentMsg');
+  if (msg) msg.classList.add('hidden');
+  goToStep(1);
+}
+</script>
+</body>
+</html>
